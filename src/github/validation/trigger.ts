@@ -23,10 +23,10 @@ export function checkContainsTrigger(context: ParsedGitHubContext): boolean {
   }
 
   // Compile the regex once for checking the trigger phrase
-  const regex = new RegExp(
-    `(^|\\s)${escapeRegExp(triggerPhrase)}([\\s.,!?;:]|$)`,
-    "i",
-  );
+  // If triggerPhrase is empty, use a regex that never matches anything
+  const regex = triggerPhrase
+    ? new RegExp(`(^|\\s)${escapeRegExp(triggerPhrase)}([\\s.,!?;:]|$)`, "i")
+    : /(?!)/;
 
   // Check for assignee trigger
   if (isIssuesAssignedEvent(context)) {
