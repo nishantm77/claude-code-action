@@ -102,7 +102,7 @@ server.tool(
       const sanitizedBody = redactSecrets(sanitizeContent(body));
 
       // Validate that either line or both startLine and line are provided
-      if (!line && !startLine) {
+      if (line === undefined && startLine === undefined) {
         throw new Error(
           "Either 'line' for single-line comments or both 'startLine' and 'line' for multi-line comments must be provided",
         );
@@ -147,7 +147,7 @@ server.tool(
 
       // If only line is provided, it's a single-line comment
       // If both startLine and line are provided, it's a multi-line comment
-      const isSingleLine = !startLine;
+      const isSingleLine = startLine === undefined;
 
       const octokit = createOctokit(githubToken).rest;
 
